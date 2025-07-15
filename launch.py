@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import subprocess
 import os
 import shutil
@@ -12,7 +13,7 @@ APP_BUILD_CMD = ["npm", "run", "build"]
 APP_DEV_CMD = ["npm", "run", "dev"]
 LAUNCHER_PATH = os.path.join(BUILD_DIR, "elysium_launcher")
 
-def intsll_depend():
+def install_depend():
     print("Installig npm dependencies syka")
     subprocess.run(["npm", "install"], cwd=APP_DIR, check=True)
 
@@ -22,7 +23,7 @@ def clean_build():
     os.makedirs(BUILD_DIR)
 
 def build_app():
-    intsll_depend()
+    install_depend()
     subprocess.run(APP_BUILD_CMD, cwd=APP_DIR, check=True)
     shutil.copytree(DIST_DIR, os.path.join(BUILD_DIR, "dist"))
 
@@ -43,7 +44,7 @@ def run_dev():
     shutil.rmtree(BUILD_DIR)
     os.makedirs(BUILD_DIR)
 
-    intsll_depend()
+    install_depend()
 
     # Start npm run dev
     npm_proc = subprocess.Popen(APP_DEV_CMD, cwd=APP_DIR)
