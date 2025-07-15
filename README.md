@@ -1,74 +1,85 @@
-## 翻訳:
-- [ロシア](README_RU.md)
+## Переводы:
+- [日本語](README_JP.md)
 
 # Elysium Launcher
 
-**Elysium Launcher** は、`ReactJS`のフロントエンドと `C++`, `Rust`のバックエンドを持つクロスプラットフォームデスクトップアプリケーションです。
+**Elysium Launcher** — кроссплатформенное десктоп-приложение с фронтендом на `ReactJS` и бэкендом на `C++`, `Rust`.
 
-## ⚙️ 依存関係のインストール
-
-```bash
-./launch.py install
-```
-
-- `npm` の依存関係を NodeJS 経由でインストール
-- `Cargo`を使って Rust の依存関係をインストール
-
-## 🛠️ ビルド
+## ⚙️ Установка зависимостей проекта
 
 ```bash
-./launch.py build
+./manage.py install
 ```
 
-- 古いビルドを削除
-- フロントエンドをビルド (`npm run build`)
-- `dist/` を `build/` にコピー
-- Rust ライブラリをビルド
-- ヘッダファイルを生成
-- `CMake` 経由で C++ バックエンドをビルド
+- Устанавливает Node.js зависимости (`npm install`)
+- Устанавливает `cbindgen` через Cargo
 
-## 🚀 実行
-
-### プロダクション環境:
+## 🛠️ Сборка проекта
 
 ```bash
-./launch.py run
+./manage.py build
 ```
 
-コンパイルされたランチャーを実行: `build/elysium_launcher`
+- Очищает старую сборку
+- Собирает фронтенд (`npm run build`)
+- Копирует `dist/` в `build/`
+- Собирает Rust библиотеки 
+- Генерирует заголовки `Rust` библиотек
+- Собирает C++ backend через `CMake`
 
-### 開発モード:
+## 🚀 Запуск
+
+### Продакшен:
 
 ```bash
-./launch.py dev
+./manage.py run
 ```
 
-- `npm run dev` を実行（フロント）
-- `USE_BUILTIN_WEBSERVER=OFF` で C++ をビルド
-- 開発サーバーに接続されたランチャーを起動
+Запускает скомпилированный лаунчер: `build/elysium_launcher`
 
-停止は `Ctrl+C`、正常に終了します。
+### Режим разработки:
 
-## 🧱 プロジェクト構成
+```bash
+./manage.py dev
+```
+
+- Запускает `npm run dev` (фронт)
+- Собирает C++ с `USE_BUILTIN_WEBSERVER=OFF`
+- Запускает лаунчер, соединённый с дев-сервером
+
+Остановка — через `Ctrl+C`, всё завершится корректно.
+
+## 🧱 Структура проекта
 
 ```
 .
-├── app/                  # npm フロントエンド
-├── build/                # ビルドディレクトリ
-├── include/              # Rust から生成される C ヘッダ
+├── app/                  # npm фронтенд
+├── build/                # директория сборки
+├── include/              # C headers, генерируемые из Rust
 ├── libs/
-│   └── el-core-lib/      # Rust ライブラリ
-├── src/                  # C++ ソース
-├── manage.py             # 管理スクリプト
+│   └── el-core-lib/      # Rust библиотека
+├── src/                  # C++ исходники
+├── manage.py             # Скрипт управления
 ├── CMakeLists.txt
-├── LICENSE
 └── README.md
 ```
 
 ## ✅ TODO
 
-- [X] ReactJS をプロジェクトに組み込む
-- [ ] Windows 対応 (経由 WebView2)
-- [ ] CI/CD パイプライン (GitHub Actions)
-- [ ] Minecraft の起動とインストール用ライブラリを作成
-- [ ] フロントエンドを作成
+- [X] Подключить ReactJS к проекту
+- [ ] Добавить Windows-поддержку (через WebView2)
+- [ ] CI/CD пайплайн (GitHub Actions)
+- [ ] Юнит-тесты для C++ компонентов
+- [ ] Документация по API Rust-библиотеки
+- [ ] Интернационализация интерфейса
+
+## 🤝 Contributing
+
+Pull-реквесты приветствуются! Чтобы внести вклад:
+
+1. Форкни репозиторий
+2. Создай новую ветку: `git checkout -b feature/ваша-фича`
+3. Сделай коммиты и пуш: `git push origin feature/ваша-фича`
+4. Создай Pull Request с описанием изменений
+
+Пожалуйста, следуй существующему стилю кода и комментируй важные участки.
