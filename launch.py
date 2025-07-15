@@ -8,6 +8,7 @@ import sys
 
 BUILD_DIR = "build"
 APP_DIR = "app"
+EL_CORE_LIB_DIR = "libs/el-core-lib"
 DIST_DIR = os.path.join(APP_DIR, "dist")
 APP_BUILD_CMD = ["npm", "run", "build"]
 APP_DEV_CMD = ["npm", "run", "dev"]
@@ -16,6 +17,8 @@ LAUNCHER_PATH = os.path.join(BUILD_DIR, "elysium_launcher")
 def install_depend():
     print("Installig npm dependencies syka")
     subprocess.run(["npm", "install"], cwd=APP_DIR, check=True)
+    print("Installig cargo dependencies syka")
+    subprocess.run(["cargo", "install", "cbindgen"], cwd=APP_DIR, check=True)
 
 def clean_build():
     os.makedirs(BUILD_DIR, exist_ok=True)
@@ -23,7 +26,6 @@ def clean_build():
     os.makedirs(BUILD_DIR)
 
 def build_app():
-    install_depend()
     subprocess.run(APP_BUILD_CMD, cwd=APP_DIR, check=True)
     shutil.copytree(DIST_DIR, os.path.join(BUILD_DIR, "dist"))
 
@@ -43,8 +45,6 @@ def run_dev():
     os.makedirs(BUILD_DIR, exist_ok=True)
     shutil.rmtree(BUILD_DIR)
     os.makedirs(BUILD_DIR)
-
-    install_depend()
 
     # Start npm run dev
     npm_proc = subprocess.Popen(APP_DEV_CMD, cwd=APP_DIR)
@@ -85,6 +85,8 @@ def main():
         run_launcher()
     elif args.command == "dev":
         run_dev()
+    elif args.command == "install":
+        install_depend()
 
 if __name__ == "__main__":
     main()
