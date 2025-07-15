@@ -73,6 +73,7 @@ def main():
     subparsers.add_parser("build", help="Clean, build frontend and backend")
     subparsers.add_parser("run", help="Run compiled launcher")
     subparsers.add_parser("dev", help="Start dev server and run launcher")
+    subparsers.add_parser("install", help="Install dependencies")
 
     args = parser.parse_args()
 
