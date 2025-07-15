@@ -1,19 +1,19 @@
 #include "webserver.hpp" // Просто должен быть первых (я хз лол)
 
 #include "bindings.hpp"
-extern "C" {
-#include "el-core-bindings.h"
-}
-
 #include "webview.h"
 #include <nlohmann/json.hpp>
 #include <string>
+
+extern "C" {
+#include "el-core-bindings.h"
+}
 
 int main() {
   HttpServer server;
   server.start();
 
-  std::cout << rust_add(32, 32);
+  std::cout << rust_add(32, 32) << std::flush;
   webview::webview w(true, nullptr);
   w.set_title("Elysium Launcher");
   w.set_size(800, 600, WEBVIEW_HINT_NONE);
