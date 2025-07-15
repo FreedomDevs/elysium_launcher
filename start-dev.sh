@@ -5,6 +5,7 @@ set -e
 cd "$(dirname "$0")"
 
 mkdir -p build
+rm -rf build/*
 
 cd app
 

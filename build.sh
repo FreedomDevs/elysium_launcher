@@ -2,6 +2,7 @@
 set -e
 
 mkdir -p build
+rm -rf build/*
 
 cd app
 npm run build
