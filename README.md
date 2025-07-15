@@ -1,62 +1,62 @@
 # Elysium Launcher
 
-**Elysium Launcher** — кроссплатформенное десктоп-приложение с фронтендом на `ReactJS` и бэкендом на `C++`, `Rust`.
+**Elysium Launcher** は、`ReactJS`のフロントエンドと `C++`, `Rust`のバックエンドを持つクロスプラットフォームデスクトップアプリケーションです。
 
-## ⚙️ Установка зависимостей проекта
+## ⚙️ 依存関係のインストール
 
 ```bash
 ./launch.py install
 ```
 
-- Устанавливает `npm` зависимости через NodeJS
-- Устанавливает `Rust` зависимости через Cargo
+- `npm` の依存関係を NodeJS 経由でインストール
+- `Cargo`を使って Rust の依存関係をインストール
 
-## 🛠️ Сборка проекта
+## 🛠️ ビルド
 
 ```bash
 ./launch.py build
 ```
 
-- Очищает старую сборку
-- Собирает фронтенд (`npm run build`)
-- Копирует `dist/` в `build/`
-- Собирает Rust библиотеки
-- Генерирует заголовки
-- Собирает C++ backend через `CMake`
+- 古いビルドを削除
+- フロントエンドをビルド (`npm run build`)
+- `dist/` を `build/` にコピー
+- Rust ライブラリをビルド
+- ヘッダファイルを生成
+- `CMake` 経由で C++ バックエンドをビルド
 
-## 🚀 Запуск
+## 🚀 実行
 
-### Продакшен:
+### プロダクション環境:
 
 ```bash
 ./launch.py run
 ```
 
-Запускает скомпилированный лаунчер: `build/elysium_launcher`
+コンパイルされたランチャーを実行: `build/elysium_launcher`
 
-### Режим разработки:
+### 開発モード:
 
 ```bash
 ./launch.py dev
 ```
 
-- Запускает `npm run dev` (фронт)
-- Собирает C++ с `USE_BUILTIN_WEBSERVER=OFF`
-- Запускает лаунчер, соединённый с дев-сервером
+- `npm run dev` を実行（フロント）
+- `USE_BUILTIN_WEBSERVER=OFF` で C++ をビルド
+- 開発サーバーに接続されたランチャーを起動
 
-Остановка — через `Ctrl+C`, всё завершится корректно.
+停止は `Ctrl+C`、正常に終了します。
 
-## 🧱 Структура проекта
+## 🧱 プロジェクト構成
 
 ```
 .
-├── app/                  # npm фронтенд
-├── build/                # директория сборки
-├── include/              # C headers, генерируемые из Rust
+├── app/                  # npm フロントエンド
+├── build/                # ビルドディレクトリ
+├── include/              # Rust から生成される C ヘッダ
 ├── libs/
-│   └── el-core-lib/      # Rust библиотека
-├── src/                  # C++ исходники
-├── manage.py             # Скрипт управления
+│   └── el-core-lib/      # Rust ライブラリ
+├── src/                  # C++ ソース
+├── manage.py             # 管理スクリプト
 ├── CMakeLists.txt
 ├── LICENSE
 └── README.md
@@ -64,8 +64,8 @@
 
 ## ✅ TODO
 
-- [X] Подключить ReactJS к проекту
-- [ ] Добавить Windows-поддержку (через WebView2)
-- [ ] CI/CD пайплайн (GitHub Actions)
-- [ ] Написать библтиотеку для запуска и установки Minecraft
-- [ ] Написаь фронтенд
+- [X] ReactJS をプロジェクトに組み込む
+- [ ] Windows 対応 (経由 WebView2)
+- [ ] CI/CD パイプライン (GitHub Actions)
+- [ ] Minecraft の起動とインストール用ライブラリを作成
+- [ ] フロントエンドを作成
