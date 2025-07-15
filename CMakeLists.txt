@@ -3,6 +3,12 @@ project(elysium_launcher)
 
 set(CMAKE_CXX_STANDARD 23)
 
+
+# Основной исполняемый файл
+add_executable(elysium_launcher
+    src/main.cpp
+)
+
 if (WIN32)
     # Ничего не делаем с pkg-config
     message(STATUS "Building for Windows")
@@ -13,12 +19,6 @@ else()
     target_compile_options(elysium_launcher PRIVATE ${GTK_CFLAGS_OTHER})
     target_link_libraries(elysium_launcher PRIVATE ${GTK_LIBRARIES})
 endif()
-
-# Основной исполняемый файл
-add_executable(elysium_launcher
-    src/main.cpp
-    ${WEBVIEW_SOURCES}
-)
 
 # Включаем сторонние библиотеки
 target_include_directories(elysium_launcher PRIVATE
