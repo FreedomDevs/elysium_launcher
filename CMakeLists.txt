@@ -3,20 +3,22 @@ project(elysium_launcher)
 
 set(CMAKE_CXX_STANDARD 23)
 
-# GTK и WebKit
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(GTK REQUIRED gtk+-3.0 webkit2gtk-4.1)
+if (WIN32)
+    # Ничего не делаем с pkg-config
+    message(STATUS "Building for Windows")
+else()
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GTK REQUIRED gtk+-3.0 webkit2gtk-4.1)
+    target_include_directories(elysium_launcher PRIVATE ${GTK_INCLUDE_DIRS})
+    target_compile_options(elysium_launcher PRIVATE ${GTK_CFLAGS_OTHER})
+    target_link_libraries(elysium_launcher PRIVATE ${GTK_LIBRARIES})
+endif()
 
 # Основной исполняемый файл
 add_executable(elysium_launcher
     src/main.cpp
     ${WEBVIEW_SOURCES}
 )
-
-# GTK флаги
-target_include_directories(elysium_launcher PRIVATE ${GTK_INCLUDE_DIRS})
-target_compile_options(elysium_launcher PRIVATE ${GTK_CFLAGS_OTHER})
-target_link_libraries(elysium_launcher PRIVATE ${GTK_LIBRARIES})
 
 # Включаем сторонние библиотеки
 target_include_directories(elysium_launcher PRIVATE
