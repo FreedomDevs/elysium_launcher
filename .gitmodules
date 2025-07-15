@@ -4,3 +4,6 @@
 [submodule "libs/jsoncpp"]
 	path = libs/jsoncpp
 	url = https://github.com/nlohmann/json.git
+[submodule "libs/httplib"]
+	path = libs/httplib
+	url = https://github.com/yhirose/cpp-httplib.git

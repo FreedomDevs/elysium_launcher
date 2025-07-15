@@ -11,10 +11,13 @@ include_directories(${GTK_INCLUDE_DIRS})
 link_directories(${GTK_LIBRARY_DIRS})
 add_definitions(${GTK_CFLAGS_OTHER})
 
-add_executable(elysium_launcher main.cpp ${WEBVIEW_SOURCES})
+file(GLOB_RECURSE WEBUI_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/webui/*.c")
+
+add_executable(elysium_launcher src/main.cpp ${WEBUI_SOURCES} ${WEBVIEW_SOURCES})
 
 target_include_directories(elysium_launcher PRIVATE libs/webview/core/include)
 target_include_directories(elysium_launcher PRIVATE libs/jsoncpp/include)
+target_include_directories(elysium_launcher PRIVATE libs/httplib)
 
 target_link_libraries(elysium_launcher ${GTK_LIBRARIES})
 
