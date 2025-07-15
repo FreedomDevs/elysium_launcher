@@ -1,4 +1,6 @@
-#include "webserver.hpp"
+#include "webserver.hpp" // Просто должен быть первых (я хз лол)
+
+#include "bindings.hpp"
 #include "webview.h"
 #include <nlohmann/json.hpp>
 #include <string>
@@ -8,14 +10,10 @@ int main() {
   server.start();
 
   webview::webview w(true, nullptr);
-  w.set_title("My App");
+  w.set_title("Elysium Launcher");
   w.set_size(800, 600, WEBVIEW_HINT_NONE);
 
-  w.bind("pingCpp", [](const std::string &req) -> std::string {
-    nlohmann::json j;
-    j["status"] = "ok";
-    return j.dump();
-  });
+  MyBindings::registerRoutes(w);
 
 #if USE_BUILTIN_WEBSERVER
   w.navigate(server.get_url());
