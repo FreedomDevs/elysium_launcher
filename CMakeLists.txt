@@ -34,12 +34,15 @@ set(RUST_CRATE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/el-core-lib)
 set(RUST_LIB ${RUST_CRATE_DIR}/target/release/libel_core_lib.a)
 set(CBINDGEN_BIN "$ENV{HOME}/.cargo/bin/cbindgen")
 set(BINDINGS_H ${CMAKE_CURRENT_SOURCE_DIR}/include/el-core-bindings.h)
+file(GLOB_RECURSE RUST_SOURCES ${RUST_CRATE_DIR}/src/*.rs)
+set(CARGO_MANIFEST ${RUST_CRATE_DIR}/Cargo.toml)
 
 # Шаг 1: Сборка Rust-библиотеки
 add_custom_command(
     OUTPUT ${RUST_LIB}
     COMMAND cargo build --release
     WORKING_DIRECTORY ${RUST_CRATE_DIR}
+    DEPENDS ${RUST_SOURCES} ${CARGO_MANIFEST}
     COMMENT "Building Rust library with cargo"
 )
 
