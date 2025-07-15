@@ -4,21 +4,22 @@ export async function invoke<T = unknown>(
   cmd: string,
   args: InvokePayload = {}
 ): Promise<T> {
-  if (typeof (window as any).cppFunction !== "function") {
-    throw new Error("C++ function is not available");
+  const fn = (window as any)[cmd];
+  if (typeof fn !== "function") {
+    throw new Error(`Функция ${cmd} не найдена или не является функцией`);
   }
 
-  const payload = {
-    cmd,
-    ...args,
-  };
+  const raw = await fn(JSON.stringify(args));
 
-  const raw = await (window as any).cppFunction(JSON.stringify(payload));
-
-  try {
-    return JSON.parse(raw) as T;
-  } catch (e) {
-    console.error("Ошибка при парсинге ответа C++:", raw);
-    throw e;
+  if (typeof raw === "string") {
+    try {
+      return JSON.parse(raw) as T;
+    } catch (e) {
+      console.error("Ошибка при парсинге ответа функции:", raw);
+      throw e;
+    }
+  } else {
+    // Если raw уже объект — возвращаем сразу
+    return raw as T;
   }
 }
