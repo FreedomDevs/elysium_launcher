@@ -1,3 +1,6 @@
+## 翻訳:
+- [ロシア](README_RU.md)
+
 # Elysium Launcher
 
 **Elysium Launcher** は、`ReactJS`のフロントエンドと `C++`, `Rust`のバックエンドを持つクロスプラットフォームデスクトップアプリケーションです。
