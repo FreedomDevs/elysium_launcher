@@ -27,7 +27,7 @@ def clean_build():
 
 def build_app():
     subprocess.run(APP_BUILD_CMD, cwd=APP_DIR, check=True)
-    shutil.copytree(DIST_DIR, os.path.join(BUILD_DIR, "dist"))
+    shutil.copytree(DIST_DIR, os.path.join(BUILD_DIR, "dist"), dirs_exist_ok=True)
 
 def configure_cmake(extra_flags=None):
     cmd = ["cmake", "-B", BUILD_DIR, "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"]

@@ -3,20 +3,20 @@ project(elysium_launcher)
 
 set(CMAKE_CXX_STANDARD 23)
 
+file(GLOB_RECURSE CPP_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 # Основной исполняемый файл
 add_executable(elysium_launcher
-    src/main.cpp
+    ${CPP_SOURCES}
 )
 
 if (WIN32)
-    # Ничего не делаем с pkg-config
     message(STATUS "Building for Windows")
 else()
+    message(STATUS "Building for Linux")
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(GTK REQUIRED gtk+-3.0 webkit2gtk-4.1)
     target_include_directories(elysium_launcher PRIVATE ${GTK_INCLUDE_DIRS})
-    target_compile_options(elysium_launcher PRIVATE ${GTK_CFLAGS_OTHER})
     target_link_libraries(elysium_launcher PRIVATE ${GTK_LIBRARIES})
 endif()
 
@@ -25,6 +25,7 @@ target_include_directories(elysium_launcher PRIVATE
     libs/webview/core/include
     libs/jsoncpp/include
     libs/httplib
+    include/
 )
 
 # Опция использования встроенного веб-сервера
@@ -57,7 +58,7 @@ add_custom_command(
     COMMENT "Generating el-core-bindings.h with cbindgen"
 )
 
-# Шаг 3: Фиктивная цель для сборки Rust
+# Шаг 3: Сборка rust
 add_custom_target(build_rust ALL
     DEPENDS ${RUST_LIB} ${BINDINGS_H}
 )
