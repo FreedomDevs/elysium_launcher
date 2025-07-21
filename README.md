@@ -77,6 +77,8 @@ git clone --recurse-submodules https://github.com/FreedomDevs/elysium_launcher.g
 ## ✅ TODO
 
 - [X] Подключить ReactJS к проекту
+- [ ] Разработка дизайна лаунчера
+- [ ] Интеграция с ElysiumAPI
 - [ ] Добавить Windows-поддержку (через WebView2)
 - [ ] CI/CD пайплайн (GitHub Actions)
 - [ ] Юнит-тесты для C++ компонентов
