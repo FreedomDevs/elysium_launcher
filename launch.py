@@ -30,7 +30,7 @@ def build_app():
     shutil.copytree(DIST_DIR, os.path.join(BUILD_DIR, "dist"), dirs_exist_ok=True)
 
 def configure_cmake(extra_flags=None):
-    cmd = ["cmake", "-B", BUILD_DIR, "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"]
+    cmd = ["cmake", "-B", BUILD_DIR, "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON", "-U", "USE_BUILTIN_WEBSERVER"]
     if extra_flags:
         cmd.extend(extra_flags)
     subprocess.run(cmd, check=True)
@@ -39,7 +39,7 @@ def build_cmake():
     subprocess.run(["cmake", "--build", BUILD_DIR, "--", "-j", "12"], check=True)
 
 def run_launcher():
-    return subprocess.Popen([LAUNCHER_PATH])
+    os.execvp(LAUNCHER_PATH, [BUILD_DIR])
 
 def run_launcher_debug():
     return subprocess.Popen(["gdb", "--batch", "-ex", "run", "-ex", "bt", "-ex", "quit", "--args", LAUNCHER_PATH])
