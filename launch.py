@@ -36,31 +36,51 @@ def configure_cmake(extra_flags=None):
     subprocess.run(cmd, check=True)
 
 def build_cmake():
-    subprocess.run(["cmake", "--build", BUILD_DIR], check=True)
+    subprocess.run(["cmake", "--build", BUILD_DIR, "--", "-j", "12"], check=True)
 
 def run_launcher():
-    subprocess.run([LAUNCHER_PATH])
+    return subprocess.Popen([LAUNCHER_PATH])
+
+def run_launcher_debug():
+    return subprocess.Popen(["gdb", "--batch", "-ex", "run", "-ex", "bt", "-ex", "quit", "--args", LAUNCHER_PATH])
 
 def run_dev():
     # Start npm run dev
     npm_proc = subprocess.Popen(APP_DEV_CMD, cwd=APP_DIR)
 
-    def cleanup(*args):
+    configure_cmake(extra_flags=["-DUSE_BUILTIN_WEBSERVER=OFF", "-DCMAKE_BUILD_TYPE=Debug"])
+    build_cmake()
+    launcher_proc = run_launcher_debug()
+
+    def cleanup(npm_only: bool = False, *args):
         print(f"\nStopping npm run dev (PID {npm_proc.pid})...")
         npm_proc.terminate()
+
+        if not npm_only:
+            print(f"Stopping launcher (PID {launcher_proc.pid})...")
+            launcher_proc.terminate()
+
+            try:
+                launcher_proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                print("launcher_proc не завершился, убиваем...")
+                launcher_proc.kill()
+
         try:
             npm_proc.wait(timeout=5)
         except subprocess.TimeoutExpired:
-            npm_proc.kill()
+            print("npm_proc не завершился, убиваем...")
+            try:
+                os.killpg(os.getpgid(npm_proc.pid), signal.SIGKILL)
+            except ProcessLookupError:
+                pass
         sys.exit(0)
 
-    # Catch termination signals
-    signal.signal(signal.SIGINT, cleanup)
-    signal.signal(signal.SIGTERM, cleanup)
-
-    configure_cmake(extra_flags=["-DUSE_BUILTIN_WEBSERVER=OFF"])
-    build_cmake()
-    run_launcher()
+    try:
+        launcher_proc.wait()
+        cleanup(npm_only=True)
+    except KeyboardInterrupt:
+        cleanup()
 
 def run_build():
     build_app()

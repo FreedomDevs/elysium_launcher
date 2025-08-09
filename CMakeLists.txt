@@ -10,6 +10,10 @@ add_executable(elysium_launcher
     ${CPP_SOURCES}
 )
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
+
 if (WIN32)
     message(STATUS "Building for Windows")
 else()
