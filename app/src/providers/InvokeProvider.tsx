@@ -36,7 +36,7 @@ export const InvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       {hasError ? (
         <div style={{ padding: "2rem", textAlign: "center", color: "red" }}>
           <h1>Ошибка соединения</h1>
-          <p>Нет связи в лаунчером</p>
+          <p>Нет связи с лаунчером</p>
         </div>
       ) : isReady ? (
         children
